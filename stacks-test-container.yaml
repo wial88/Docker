@@ -1,0 +1,18 @@
+services:
+  test-container:
+    image: 192.168.0.80:5000/first-image:latest
+    container_name: test-container
+    restart: unless-stopped
+    tty: true #startet die Konsole, sonst wird der Container sofort wieder beendet
+    hostname: test-container
+    mac_address: E4:5F:01:68:85:01
+    networks:
+      macvlan1-1:
+        ipv4_address: 192.168.0.201
+
+    volumes:
+      - /home/docker-volumes/test:/home
+
+networks:
+  macvlan1-1:                             # Name des Netzwerks innerhalb des Stacks
+    external: true
