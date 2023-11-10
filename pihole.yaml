@@ -1,0 +1,20 @@
+# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    network_mode: "host"
+    dns:
+     - 127.0.0.1
+     - 208.67.222.222
+    environment:
+      TZ: 'AT'
+      WEBPASSWORD: 'password'
+      ServerIP: 192.168.0.80
+      VIRTUAL_HOST: pi.hole
+    volumes:
+      - /home/docker-volumes/pihole/etc-pihole:/etc/pihole
+      - /home/docker-volumes/pihole/etc-dnsmasq.d:/etc/dnsmasq.d
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
