@@ -3,8 +3,8 @@ services:
   pialert:
     container_name: pialert
     hostname: pialert
-    mac_address: E4:5F:01:68:85:00
-    image: "jokobsk/pi.alert_dev:latest"
+    mac_address: E4:5F:00:00:00:00
+    image: "jokobsk/pi.alert:latest"
     networks:
       macvlan1-1:
         ipv4_address: 192.168.0.200
@@ -12,13 +12,13 @@ services:
     volumes:
       - /home/docker-volumes/pialert/config:/home/pi/pialert/config #liegt dann am Raspberry im Home-Verzeichnis!
       - /home/docker-volumes/pialert/db:/home/pi/pialert/db
-      - /home/docker-volumes/pialert/log:/home/pi/pialert/log
+      - /home/docker-volumes/pialert/log:/home/pi/pialert/front/log
     environment:
       - TZ=Europe/Vienna
       - HOST_USER_ID=1000
       - HOST_USER_GID=1000
       - PORT=20211
-
+      - LISTEN_ADDR=192.168.0.200
 networks:
   macvlan1-1:                             # Name des Netzwerks innerhalb des Stacks
     external: true
