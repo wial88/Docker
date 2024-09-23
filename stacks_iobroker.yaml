@@ -1,0 +1,16 @@
+services:
+  iobroker:
+    container_name: iobroker
+    hostname: iobroker
+    mac_address: E4:5F:01:68:85:01
+    image: buanet/iobroker
+    networks:
+      macvlan1-1:
+        ipv4_address: 192.168.0.201
+    restart: unless-stopped
+    volumes:
+      - /home/docker-volumes/iobroker:/opt/iobroker
+networks:
+  macvlan1-1:
+    # Name des Netzwerks innerhalb des Stacks
+    external: true
