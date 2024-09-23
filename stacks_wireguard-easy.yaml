@@ -1,32 +1,29 @@
-# https://github.com/wg-easy/wg-easy
+version: "3.8"
 services:
   wg-easy:
     environment:
       # Required:
-      # Change this to your host's public address
-      - WG_HOST=xxx.xxx.xxx.xxx
-      - PUID=1000 #UserID
-      - PGID=1000 #GroupID
-      # Optional:
-      - PASSWORD=password
-      - WG_PORT=51823
+      - LANG=de
+      - WG_HOST=xxx.xxx.xxx # IP oder DynDNS von Extern erreichbar
+      - PASSWORD_HASH=password
+      - PORT=51821
+      - WG_PORT=51820
       - WG_DEFAULT_ADDRESS=192.168.1.x
       - WG_DEFAULT_DNS=192.168.0.80
       - WG_MTU=1500
+      - WG_PERSISTENT_KEEPALIVE=25
+      - UI_TRAFFIC_STATS=true
+      - UI_CHART_TYPE=3 # (0 Charts disabled, 1 # Line chart, 2 # Area chart, 3 # Bar chart)
       # - WG_ALLOWED_IPS=192.168.15.0/24, 10.0.1.0/24
-      # - WG_PRE_UP=echo "Pre Up" > /etc/wireguard/pre-up.txt
-      # - WG_POST_UP=echo "Post Up" > /etc/wireguard/post-up.txt
-      # - WG_PRE_DOWN=echo "Pre Down" > /etc/wireguard/pre-down.txt
-      # - WG_POST_DOWN=echo "Post Down" > /etc/wireguard/post-down.txt
-      
-    image: weejewel/wg-easy
+
+    image: ghcr.io/wg-easy/wg-easy
     container_name: wg-easy
     hostname: wireguard
     volumes:
       - /home/docker-volumes/wireguard:/etc/wireguard
     ports:
-      - "51823:51820/udp" # Zugriff von außen -> muss am Router eingestellt werden (Port-forwarding)
-      - "51821:51821/tcp" # Zugriff auf Webseite
+      - 51823:51820/udp # Zugriff von außen -> muss am Router eingestellt werden (Port-forwarding)
+      - 51821:51821/tcp # Zugriff auf Webseite
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
@@ -34,3 +31,4 @@ services:
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv4.ip_forward=1
+networks: {}
