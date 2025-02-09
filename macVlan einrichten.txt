@@ -1,7 +1,60 @@
-docker network create -d macvlan \    "netzwerk erstellen"
-  -o parent=eth0 \                    "welcher adapter? wlan0? eth0?" 
-  --subnet 192.168.0.0/24 \           
-  --gateway 192.168.0.1 \
-  --ip-range 192.168.0.240/28 \
-  --aux-address 'host=192.168.0.254' \
+1. Schritt - macVlan im Docker erzeugen:
+docker network create -d macvlan \     "netzwerk erstellen"
+  -o parent=eth0 \                     "welcher adapter? wlan0? eth0?" auslesen über "ifconfig"
+  --subnet 192.168.0.0/24 \            "adressbereich vom normalen Netzwerk"
+  --gateway 192.168.0.1 \              "gateway vom normalen Netzwerk"
+  --ip-range 192.168.0.240/28 \        "adressbereich vom macVlan"
+  --aux-address 'host=192.168.0.254' \ "adresse die im macVlan nicht verwendet wird und am Host eingetragen wird"
   macVlan
+
+zum kopieren:
+docker network create -d macvlan \     "netzwerk erstellen"
+  -o parent=eth0 \                     "welcher adapter? wlan0? eth0?" 
+  --subnet 192.168.0.0/24 \            "adressbereich vom normalen Netzwerk"
+  --gateway 192.168.0.1 \              "gateway vom normalen Netzwerk"
+  --ip-range 192.168.0.240/28 \        "adressbereich vom macVlan"
+  --aux-address 'host=192.168.0.254' \ "adresse die im macVlan nicht verwendet wird und am Host eingetragen wird"
+  macVlan
+
+2. Schritt - Schnittstelle am Host erzeugen:
+sudo ip link add NAME link ADAPTER type macvlan mode bridge
+Name: Name der Schnittstelle zb. macVlan-Adapter
+Adapter: Welcher Adapter am Host? zb. wlan0, eth0; auslesen über "ifconfig"
+
+3. Schritt - der Schnittstellen am Host eine IP zuweisen:
+sudo ip addr add 192.168.0.254/28 dev NAME
+IP: vom 1. Schritt die "aux-adress"
+NAME: vom 2. Schritt der NAME
+
+4. Schritt - die Schnittstelle am Host aktiviern
+sudo ip link set NAME up
+NAME: vom 2. Schritt der NAME
+
+5. Schritt - Route hinzufügen:
+ip route add 192.168.0.240/28 dev NAME
+IP: Adressbereich vom macVlan
+NAME: vom 2. Schritt der NAME
+
+6. Schritt - im Container verwenden:
+MAC-Adresse eintragen
+IP-Adresse vergeben
+Netzwerk eintragen
+
+Beispiel:
+services:
+  iobroker:
+    container_name: iobroker
+    hostname: iobroker
+    mac_address: 2c:cf:67:00:00:01
+    image: buanet/iobroker
+    networks:
+      macVlan:
+        ipv4_address: 192.168.0.241
+    restart: unless-stopped
+    ports:
+      - 8081:8081
+    volumes:
+      - /mnt/nvme/docker/volumes/iobroker:/opt/iobroker
+networks:
+  macVlan:
+    external: true
