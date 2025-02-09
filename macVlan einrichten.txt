@@ -35,6 +35,8 @@ ip route add 192.168.0.240/28 dev NAME
 IP: Adressbereich vom macVlan
 NAME: vom 2. Schritt der NAME
 
+Wenn das nicht funktioniert, dann: sudo ip addr flush dev macVlan-Adapter
+
 6. Schritt - im Container verwenden:
 MAC-Adresse eintragen
 IP-Adresse vergeben
