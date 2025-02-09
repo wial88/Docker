@@ -3,17 +3,17 @@ docker network create -d macvlan \     "netzwerk erstellen"
   -o parent=eth0 \                     "welcher adapter? wlan0? eth0?" auslesen über "ifconfig"
   --subnet 192.168.0.0/24 \            "adressbereich vom normalen Netzwerk"
   --gateway 192.168.0.1 \              "gateway vom normalen Netzwerk"
-  --ip-range 192.168.0.240/28 \        "adressbereich vom macVlan"
-  --aux-address 'host=192.168.0.254' \ "adresse die im macVlan nicht verwendet wird und am Host eingetragen wird"
+  --ip-range 192.168.0.208/28 \        "adressbereich vom macVlan"
+  --aux-address 'host=192.168.0.209' \ "adresse die im macVlan nicht verwendet wird und am Host eingetragen wird"
   macVlan
 
 zum kopieren:
-docker network create -d macvlan \     "netzwerk erstellen"
-  -o parent=eth0 \                     "welcher adapter? wlan0? eth0?" 
-  --subnet 192.168.0.0/24 \            "adressbereich vom normalen Netzwerk"
-  --gateway 192.168.0.1 \              "gateway vom normalen Netzwerk"
-  --ip-range 192.168.0.240/28 \        "adressbereich vom macVlan"
-  --aux-address 'host=192.168.0.254' \ "adresse die im macVlan nicht verwendet wird und am Host eingetragen wird"
+docker network create -d macvlan \
+  -o parent=eth0 \
+  --subnet 192.168.0.0/24 \
+  --gateway 192.168.0.1 \
+  --ip-range 192.168.0.208/28 \
+  --aux-address 'host=192.168.0.209' \
   macVlan
 
 2. Schritt - Schnittstelle am Host erzeugen:
