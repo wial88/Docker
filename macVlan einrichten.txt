@@ -1,0 +1,7 @@
+docker network create -d macvlan \    "netzwerk erstellen"
+  -o parent=eth0 \                    "welcher adapter? wlan0? eth0?" 
+  --subnet 192.168.0.0/24 \           
+  --gateway 192.168.0.1 \
+  --ip-range 192.168.0.240/28 \
+  --aux-address 'host=192.168.0.254' \
+  macVlan
