@@ -17,7 +17,7 @@ docker network create -d macvlan \     "netzwerk erstellen"
   macVlan
 
 2. Schritt - Schnittstelle am Host erzeugen:
-sudo ip link add NAME link ADAPTER type macvlan mode bridge
+sudo ip link add NAME link ADAPTER type macvlan  mode bridge
 Name: Name der Schnittstelle zb. macVlan-Adapter
 Adapter: Welcher Adapter am Host? zb. wlan0, eth0; auslesen über "ifconfig"
 
