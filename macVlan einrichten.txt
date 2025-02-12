@@ -1,3 +1,5 @@
+ACHTUNG: funtioniert nicht mit dem WLAN-Adapter!
+
 1. Schritt - macVlan im Docker erzeugen:
 docker network create -d macvlan \     "netzwerk erstellen"
   -o parent=eth0 \                     "welcher adapter? wlan0? eth0?" auslesen über "ifconfig"
