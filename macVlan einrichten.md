@@ -7,7 +7,7 @@ https://blog.ivansmirnov.name/set-up-pihole-using-docker-macvlan-network/
 IP-Subnetmask-Rechner:
 https://www.calculator.net/ip-subnet-calculator.html
 
-# 1. Schritt - macVlan im Docker erzeugen:
+## 1. Schritt - macVlan im Docker erzeugen:
 `docker network create -d macvlan \ `-> netzwerk erstellen mit Driver "macvlan" <br/>
 `  -o parent=eth0 \`-> welcher adapter? auslesen über "ifconfig" <br/>
 `  --subnet 192.168.0.0/24 \`-> adressbereich vom normalen Netzwerk <br/>
@@ -27,31 +27,31 @@ docker network create -d macvlan \
   macVlan
 ```
 
-# 2. Schritt - Host-Adapter damit alle Pakete akzeptiert werden, nicht nur für die Host-MAC-Adresse
+## 2. Schritt - Host-Adapter damit alle Pakete akzeptiert werden, nicht nur für die Host-MAC-Adresse
 `sudo ip link set eth0 promisc on`
 
-# 3. Schritt - Schnittstelle am Host erzeugen:
+## 3. Schritt - Schnittstelle am Host erzeugen:
 `sudo ip link add NAME link ADAPTER type macvlan  mode bridge`
 Name: Name der Schnittstelle zb. macVlanAdapter
 Adapter: Welcher Adapter am Host? zb. wlan0, eth0; auslesen über "ifconfig"
 
-# 4. Schritt - der Schnittstellen am Host eine IP zuweisen:
+## 4. Schritt - der Schnittstellen am Host eine IP zuweisen:
 `sudo ip addr add 192.168.0.126/27 dev NAME`
 IP: vom 1. Schritt die "aux-adress"; wichtig /32!
 NAME: vom 2. Schritt der NAME
 
-# 5. Schritt - die Schnittstelle am Host aktiviern
+## 5. Schritt - die Schnittstelle am Host aktiviern
 `sudo ip link set NAME up`
 NAME: vom 2. Schritt der NAME
 
-# 6. Schritt - Route hinzufügen:
+## 6. Schritt - Route hinzufügen:
 `sudo ip route add 192.168.0.96/27 dev NAME`
 IP: Adressbereich vom macVlan
 NAME: vom 2. Schritt der NAME
 
 Wenn das nicht funktioniert, dann `sudo ip addr flush dev macVlan-Adapter` bzw. `ip route` und überprüfen ob Route schon eingetragen
 
-# 7. Schritt - im Container verwenden:
+## 7. Schritt - im Container verwenden:
 MAC-Adresse eintragen
 IP-Adresse vergeben
 Netzwerk eintragen
@@ -77,7 +77,7 @@ networks:
     external: true
 ```
 
-# 8. Schritt - Host-Netzwerkeinstellungen dauerhaft laden:
+## 8. Schritt - Host-Netzwerkeinstellungen dauerhaft laden:
 Skript unter `/usr/local/bin/` erstellen und Rechte vergeben: <br/>
 `sudo touch /usr/local/bin/macVlan.sh` <br/>
 `sudo chmod +x  /usr/local/bin/macVlan.sh` <br/>
