@@ -1,3 +1,4 @@
+[!CAUTION]
 ACHTUNG: funtioniert nicht mit dem WLAN-Adapter!
 
 Orignial-Anleitung hier:
