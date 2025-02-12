@@ -24,20 +24,20 @@ docker network create -d macvlan \
   --aux-address 'host=192.168.0.126' \
   macVlan
 
-2. Schritt - Parent-Adapter damit alle Parkete akzeptiert werden, nicht nur für die Host-MAC-Adresse
+# 2. Schritt - Parent-Adapter damit alle Parkete akzeptiert werden, nicht nur für die Host-MAC-Adresse
 sudo ip link set eth0 promisc on
 
-2. Schritt - Schnittstelle am Host erzeugen:
+# 3. Schritt - Schnittstelle am Host erzeugen:
 sudo ip link add NAME link ADAPTER type macvlan  mode bridge
 Name: Name der Schnittstelle zb. macVlanAdapter
 Adapter: Welcher Adapter am Host? zb. wlan0, eth0; auslesen über "ifconfig"
 
-3. Schritt - der Schnittstellen am Host eine IP zuweisen:
+# 4. Schritt - der Schnittstellen am Host eine IP zuweisen:
 sudo ip addr add 192.168.0.126/27 dev NAME
 IP: vom 1. Schritt die "aux-adress"; wichtig /32!
 NAME: vom 2. Schritt der NAME
 
-4. Schritt - die Schnittstelle am Host aktiviern
+#5. Schritt - die Schnittstelle am Host aktiviern
 sudo ip link set NAME up
 NAME: vom 2. Schritt der NAME
 
