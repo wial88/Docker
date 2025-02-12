@@ -1,5 +1,5 @@
-> [!CAUTION]
-> ACHTUNG: funtioniert nicht mit dem WLAN-Adapter!
+> [!ACHTUNG]
+> funtioniert nicht mit dem WLAN-Adapter!
 
 Orignial-Anleitung hier:
 https://blog.ivansmirnov.name/set-up-pihole-using-docker-macvlan-network/
