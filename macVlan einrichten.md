@@ -1,5 +1,5 @@
-> [!ACHTUNG]
-> funtioniert nicht mit dem WLAN-Adapter!
+> [!CAUTION]
+> Funtioniert nicht mit dem WLAN-Adapter!
 
 Orignial-Anleitung hier:
 https://blog.ivansmirnov.name/set-up-pihole-using-docker-macvlan-network/
@@ -8,13 +8,13 @@ IP-Subnetmask-Rechner:
 https://www.calculator.net/ip-subnet-calculator.html
 
 # 1. Schritt - macVlan im Docker erzeugen:
-docker network create -d macvlan \     "netzwerk erstellen"
+`docker network create -d macvlan \     "netzwerk erstellen"
   -o parent=eth0 \                     "welcher adapter? wlan0? eth0?" auslesen über "ifconfig"
   --subnet 192.168.0.0/24 \            "adressbereich vom normalen Netzwerk"
   --gateway 192.168.0.1 \              "gateway vom normalen Netzwerk"
   --ip-range 192.168.0.96/27 \        "adressbereich vom macVlan, IP-Subnetmask-Rechner, im Beispiel sind dann die IP-Adressen von .97-126 für die Container frei zu verwenden"
   --aux-address 'host=192.168.0.126' \ "adresse die im macVlan nicht verwendet wird und am Host als Brigde eingetragen wird, damit das macVlan den Host pingen kann"
-  macVlan
+  macVlan`
 
 zum kopieren:
 docker network create -d macvlan \
