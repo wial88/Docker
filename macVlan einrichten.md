@@ -31,32 +31,32 @@ docker network create -d macvlan \
 `sudo ip link set eth0 promisc on`
 
 ## 3. Schritt - Schnittstelle am Host erzeugen:
-`sudo ip link add NAME link ADAPTER type macvlan  mode bridge`
-Name: Name der Schnittstelle zb. macVlanAdapter
+`sudo ip link add NAME link ADAPTER type macvlan  mode bridge`  
+Name: Name der Schnittstelle zb. macVlanAdapter  
 Adapter: Welcher Adapter am Host? zb. wlan0, eth0; auslesen über "ifconfig"
 
 ## 4. Schritt - der Schnittstellen am Host eine IP zuweisen:
-`sudo ip addr add 10.0.0.30/28 dev NAME`
-IP: vom 1. Schritt die "aux-adress";
+`sudo ip addr add 10.0.0.30/28 dev NAME`  
+IP: vom 1. Schritt die "aux-adress";  
 NAME: vom 2. Schritt der NAME
 
 ## 5. Schritt - die Schnittstelle am Host aktiviern
-`sudo ip link set NAME up`
+`sudo ip link set NAME up`  
 NAME: vom 2. Schritt der NAME
 
 ## 6. Schritt - Route hinzufügen:
-`sudo ip route add 10.0.0.16/28 dev NAME`
-IP: Adressbereich vom macVlan
-NAME: vom 2. Schritt der NAME
+`sudo ip route add 10.0.0.16/28 dev NAME`  
+IP: Adressbereich vom macVlan  
+NAME: vom 2. Schritt der NAME  
 
 Wenn das nicht funktioniert, dann `sudo ip addr flush dev macVlan-Adapter` bzw. `ip route` und überprüfen ob Route schon eingetragen
 
 ## 7. Schritt - im Container verwenden:
-MAC-Adresse eintragen
-IP-Adresse vergeben
-Netzwerk eintragen
+MAC-Adresse eintragen  
+IP-Adresse vergeben  
+Netzwerk eintragen  
 
-Beispiel:
+Beispiel:  
 ```
 services:
   iobroker:
