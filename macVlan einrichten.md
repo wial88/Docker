@@ -12,7 +12,7 @@ https://www.calculator.net/ip-subnet-calculator.html
 `  -o parent=eth0 \`-> welcher adapter? auslesen über "ifconfig" <br/>
 `  --subnet 10.0.0.0/24 \`-> adressbereich vom normalen Netzwerk <br/>
 `  --gateway 10.0.0.1 \`-> gateway vom normalen Netzwerk <br/>
-`  --ip-range 10.0.0.16/28 \`-> adressbereich vom macVlan, IP-Subnetmask-Rechner, im Beispiel sind dann die IP-Adressen von .97-126 für die Container frei zu verwenden <br/>
+`  --ip-range 10.0.0.16/28 \`-> adressbereich vom macVlan, IP-Subnetmask-Rechner, im Beispiel sind dann die IP-Adressen von .17-30 für die Container frei zu verwenden <br/>
 `  --aux-address 'host=10.0.0.30' \`-> adresse die im macVlan nicht verwendet wird und am Host als Brigde eingetragen wird, damit das macVlan den Host pingen kann <br/>
 `  macVlan` -> Name des Netzwerkes
 
