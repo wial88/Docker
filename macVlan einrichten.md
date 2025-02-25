@@ -99,7 +99,7 @@ Inhalt Service: <br/>
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/pi-vlan.sh
+ExecStart=/usr/local/bin/macVlan.sh
 
 [Install]
 WantedBy=default.target
