@@ -1,22 +1,27 @@
-version: "3"
-# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
+  # More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
   pihole:
-    container_name: pihole
+    container_name: piholeV6
     image: pihole/pihole:latest
     network_mode: host # DHCP-Server
-    dns:
-      - 127.0.0.1
-      - 208.67.222.222
+    ports:
+      # DNS Ports
+      - 53:53/tcp
+      - 53:53/udp
+      - 80:80/tcp # Default HTTP Port
+      - 443:443/tcp
+      - 67:67/udp #DHCP-Server
     environment:
       TZ: Europe/Vienna
-      WEBPASSWORD: password
-      FTLCONF_LOCAL_IPV4: 192.168.0.80
-      VIRTUAL_HOST: pihole.lan
+      FTLCONF_webserver_api_password: password
+      FTLCONF_misc_etc_dnsmasq_d: "true" #nach update löschen
     volumes:
-      - /home/docker-volumes/pihole/etc-pihole:/etc/pihole
-      - /home/docker-volumes/pihole/etc-dnsmasq.d:/etc/dnsmasq.d
+      # For persisting Pi-hole's databases and common configuration file
+      - /mnt/nvme/docker/volumes/pihole/etc-pihole:/etc/pihole
+      - /mnt/nvme/docker/volumes/pihole/etc-dnsmasq.d:/etc/dnsmasq.d #nach update löschen
     cap_add:
-      - NET_ADMIN # DHCP-Server
+      - NET_ADMIN #DHCP-Server
+      - SYS_TIME #NTP-Client
+      - SYS_NICE
     restart: unless-stopped
 networks: {}
