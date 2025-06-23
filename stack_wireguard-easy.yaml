@@ -4,13 +4,13 @@ services:
     environment:
       # Required:
       - LANG=de
-      - WG_HOST=xxx.xxx.xxx # IP oder DynDNS von Extern erreichbar
-      - PASSWORD_HASH=password
+      - WG_HOST=xxx.privatedns.org # IP oder DynDNS von Extern erreichbar
+      - PASSWORD_HASH=passwort
       - PORT=51821
       - WG_PORT=51820
-      - WG_DEFAULT_ADDRESS=192.168.1.x
-      - WG_DEFAULT_DNS=192.168.0.80
-      - WG_MTU=1500
+      - WG_DEFAULT_ADDRESS=10.0.1.x
+      - WG_DEFAULT_DNS=10.0.0.10
+      - WG_MTU=1420
       - WG_PERSISTENT_KEEPALIVE=25
       - UI_TRAFFIC_STATS=true
       - UI_CHART_TYPE=3 # (0 Charts disabled, 1 # Line chart, 2 # Area chart, 3 # Bar chart)
@@ -20,9 +20,9 @@ services:
     container_name: wg-easy
     hostname: wireguard
     volumes:
-      - /home/docker-volumes/wireguard:/etc/wireguard
+      - /mnt/nvme/docker/volumes/wireguard:/etc/wireguard
     ports:
-      - 51823:51820/udp # Zugriff von außen -> muss am Router eingestellt werden (Port-forwarding)
+      - 51820:51820/udp # Zugriff von außen -> muss am Router eingestellt werden (Port-forwarding)
       - 51821:51821/tcp # Zugriff auf Webseite
     restart: unless-stopped
     cap_add:
