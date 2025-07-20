@@ -1,34 +1,36 @@
-version: "3.8"
 services:
   wg-easy:
     environment:
-      # Required:
-      - LANG=de
-      - WG_HOST=xxx.privatedns.org # IP oder DynDNS von Extern erreichbar
-      - PASSWORD_HASH=passwort
-      - PORT=51821
-      - WG_PORT=51820
-      - WG_DEFAULT_ADDRESS=10.0.1.x
-      - WG_DEFAULT_DNS=10.0.0.10
-      - WG_MTU=1420
-      - WG_PERSISTENT_KEEPALIVE=25
-      - UI_TRAFFIC_STATS=true
-      - UI_CHART_TYPE=3 # (0 Charts disabled, 1 # Line chart, 2 # Area chart, 3 # Bar chart)
-      # - WG_ALLOWED_IPS=192.168.15.0/24, 10.0.1.0/24
-
-    image: ghcr.io/wg-easy/wg-easy
-    container_name: wg-easy
-    hostname: wireguard
+      #- PORT=51821
+      #- WG_HOST=acebin.privatedns.org
+      - INSECURE=true
+    image: ghcr.io/wg-easy/wg-easy:15
+    container_name: wireguard
+    networks:
+      wg:
+        ipv4_address: 10.0.1.2
     volumes:
       - /mnt/nvme/docker/volumes/wireguard:/etc/wireguard
+      - /lib/modules:/lib/modules:ro
     ports:
-      - 51820:51820/udp # Zugriff von außen -> muss am Router eingestellt werden (Port-forwarding)
-      - 51821:51821/tcp # Zugriff auf Webseite
+      - 51820:51820/udp #zugriff von Internet
+      - 51821:51821/tcp #zugriff auf webseite
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
     sysctls:
-      - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv4.ip_forward=1
-networks: {}
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=1
+      - net.ipv6.conf.all.forwarding=1
+      - net.ipv6.conf.default.forwarding=1
+networks:
+  wg:
+    driver: bridge
+    enable_ipv6: false
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.1.0/24
+
